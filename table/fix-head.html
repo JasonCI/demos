@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>table demo</title>
+    <script src="https://cdn.bootcss.com/vue/2.1.10/vue.js"></script>
+</head>
+<style>
+    #app {
+        padding: 30px;
+        margin: auto;
+        width: 700px;
+    }
+
+    #app div {
+        height: 300px;
+        overflow: auto;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #B9B9B9;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    table td {
+        height: 30px;
+    }
+</style>
+<body>
+<div id="app">
+    <table>
+        <thead>
+        <tr ref="fixHead">
+            <td v-for="h in head">{{h.label}}</td>
+        </tr>
+        </thead>
+    </table>
+    <div @scroll="scroll">
+       <!--<div style="position: relative;height:300px;overflow: auto">-->
+           <!--<table style="position: absolute;width: 30px">-->
+               <!--<thead>-->
+               <!--<tr ref="hiddenCol">-->
+                   <!--<td>{{head[0].label}}</td>-->
+               <!--</tr>-->
+               <!--</thead>-->
+               <!--<tbody>-->
+               <!--<tr v-for="user in list">-->
+                   <!--<td>{{user[head[0].value]}}</td>-->
+               <!--</tr>-->
+               <!--</tbody>-->
+           <!--</table>-->
+       <!--</div>-->
+        <table>
+            <thead style="visibility: hidden">
+            <tr ref="hiddenHead">
+                <td v-for="h in head">{{h.label}}</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="user in list">
+                <td v-for="info in head">{{user[info.value]}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <button @click="add"> add</button>
+    <button @click="remove"> remove</button>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            head: [{value: "code", label: "编号"},
+                {value: "name", label: "姓名"},
+                {value: "age", label: "年龄"},
+                {value: "address", label: "地址"}],
+            list: [
+                {
+                    code: "001",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号"
+                }, {
+                    code: "012103",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号"
+                }, {
+                    code: "001222",
+                    name: "jaon",
+                    age: "22",
+                    address: "徐汇区，桂林路桂林路桂林路，396号"
+                }, {
+                    code: "0012121",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号396号396号"
+                }, {
+                    code: "0121201",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区徐汇区徐汇区徐汇区，桂林路，396号"
+                }, {
+                    code: "001",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号"
+                }, {
+                    code: "012103",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号"
+                }, {
+                    code: "001222",
+                    name: "jaon",
+                    age: "22",
+                    address: "徐汇区，桂林路桂林路桂林路，396号"
+                }, {
+                    code: "0012121",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号396号396号"
+                }, {
+                    code: "0121201",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区徐汇区徐汇区徐汇区，桂林路，396号"
+                }, {
+                    code: "012201",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号"
+                }, {
+                    code: "8119001",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路桂林路桂林路桂林路，396号"
+                }, {
+                    code: "001001",
+                    name: "jason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号396号396号396号"
+                },
+            ]
+        },
+        watch: {
+            list: function () {
+                this.$nextTick(function () {
+                    this.resize()
+                })
+            }
+        },
+        mounted: function () {
+            this.resize()
+        },
+        methods: {
+            resize: function () {
+                var component = this
+                var hiddenTd = component.$refs.hiddenHead.childNodes
+                for (var i = 0; i < hiddenTd.length; i++) {
+                    component.$refs.fixHead.childNodes[i].style.width = hiddenTd[i].offsetWidth + 'px'
+                }
+            },
+            scroll: function (e) {
+                console.log(e.target.offsetTop)
+                console.log(this.$refs.hiddenHead.parentNode.parentNode.offsetTop)
+            },
+            add: function () {
+                this.list.push({
+                    code: "0jason01",
+                    name: "jasonjasonjasonjasonjason",
+                    age: "22",
+                    address: "徐汇区，桂林路，396号徐汇区，桂林路，396号徐汇区，桂林路，3徐汇区，桂林路，396号"
+                })
+            },
+            remove: function () {
+                this.list.shift()
+            }
+        }
+
+    })
+
+</script>
+</html>

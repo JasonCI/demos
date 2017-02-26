@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layout demo</title>
+</head>
+<body>
+<div style="display: flex;flex-direction: column;height: 200px;width: 600px;margin: auto">
+    <div style="background-color: aliceblue;height: 20px"></div>
+    <div style="flex-grow: 1;background-color: cadetblue"></div>
+    <div style="background-color: azure;height: 20px"></div>
+</div>
+<br>
+
+<style>
+    .circle-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 100px;
+        background-color: beige;
+        border-radius: 50%;
+        border: 1px solid gainsboro;
+    }
+
+    .circle-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 60px;
+        height: 60px;
+        background-color: wheat;
+        border-radius: 50%;
+    }
+
+    .circle-del {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        background-color: lavender;
+        border-radius: 50%;
+        position: relative;
+        top: -20px;
+        left: -210px;
+    }
+
+    .circle-record-ready {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 100px;
+        background-color: whitesmoke;
+        border-radius: 50%;
+        border: 1px solid gainsboro;
+    }
+
+    .circle-record-ready-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70px;
+        height: 70px;
+        background-color: #EB5047;
+        border-radius: 50%;
+    }
+
+    .circle-record-ing {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 100px;
+        background-color: #F5DEB3;
+        border-radius: 50%;
+        border: 1px solid whitesmoke;
+    }
+
+    .circle-record-ing-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70px;
+        height: 70px;
+        background-color: #E6873C;
+        color: whitesmoke;
+        border-radius: 50%;
+    }
+
+</style>
+<!--<div style="display: flex;width: 400px;margin: auto;background-color: azure; justify-content: center;align-items: center;padding: 10px;flex-direction: column">-->
+<!--<button style="align-self: flex-end">取消</button>-->
+<!--<div class="circle-wrap">-->
+<!--<div class="circle-inner">-->
+<!--<small>开始录音</small>-->
+<!--</div>-->
+<!--</div>-->
+<!--<span>点击录音</span>-->
+<!--</div>-->
+<br>
+<!--<div style="display: flex;width: 400px;margin: auto;background-color: azure; justify-content: center;align-items: center;padding: 10px;flex-direction: column;">-->
+<!--&lt;!&ndash;<div class="circle-del">&ndash;&gt;-->
+<!--&lt;!&ndash;<span style="font-size: 30px;color: azure">&times;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--<button style="align-self: flex-end">取消</button>-->
+<!--<div class="circle-wrap">-->
+<!--<div class="circle-inner">-->
+<!--<div style="width: 25px;height: 25px;background-color: azure;border-radius: 3px"></div>-->
+<!--&lt;!&ndash;<div style="width: 4px;height: 30px;"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div style="width: 4px;height: 30px;border: solid 2px white;border-radius: 3px"></div>&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+<!--<span>点击录音</span>-->
+<!--</div>-->
+
+<br>
+
+<div style="display: flex;width: 400px;margin: auto;background-color: azure; justify-content: center;align-items: center;padding: 10px;flex-direction: column;">
+    <button style="align-self: flex-end">取消</button>
+    <div class="circle-record-ready">
+        <div class="circle-record-ready-inner"></div>
+    </div>
+    <span>点击录音</span>
+</div>
+<br>
+<div style="display: flex;width: 400px;margin: auto;background-color: azure; justify-content: center;align-items: center;padding: 10px;flex-direction: column;">
+    <button style="align-self: flex-end">取消</button>
+    <div class="circle-record-ing">
+        <div class="circle-record-ing-inner">
+            <div style="width: 25px;height: 25px;background-color: azure;border-radius: 3px"></div>
+        </div>
+    </div>
+    <span>45s/60s</span>
+</div>
+<br>
+<div style="display: flex;width: 400px;margin: auto;background-color: azure; justify-content: center;align-items: center;padding: 10px;flex-direction: column;">
+    <button style="align-self: flex-end">取消</button>
+    <div class="circle-record-ing">
+        <div class="circle-record-ing-inner">
+            <small>点击发送</small>
+        </div>
+    </div>
+    <span>点击一下录音</span>
+</div>
+</body>
+</html>

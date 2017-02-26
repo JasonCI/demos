@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .btn {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<body>
+<div style="width: 600px;padding: 20px;margin: auto" class="center">
+    <button class="btn btn-sm btn-success" onclick="study_record()">测试学习记录</button>
+    <button class="btn btn-sm btn-success">测试内容记录</button>
+    <button class="btn btn-sm btn-success">测试学习PK</button>
+    <button class="btn btn-sm btn-success">测试内容分析</button>
+    <button class="btn btn-sm btn-success">测试创课报告</button>
+    <button class="btn btn-sm btn-success">测试终端分析</button>
+    <button class="btn btn-sm btn-success">测试学员档案</button>
+
+    <button class="btn btn-sm btn-success">测试保存模板</button>
+    <button class="btn btn-sm btn-success">测试删除模板</button>
+    <button class="btn btn-sm btn-success" onclick="temp_list()">测试获取列表</button>
+</div>
+</body>
+<script>
+
+    //    "STUDY_RECORD"; //学习记录
+    //    SCENE_LECTURE_RECORD = "LECTURE_RECORD"; //内容记录
+    //    SCENE_STUDY_PK = "STUDY_PK"; //学习pk
+    //    SCENE_LECTURE_ANALYSIS = "LECTURE_ANALYSIS";  //内容分析
+    //    SCENE_COURSE_REPORT = "COURSE_REPORT";  //创课报告
+    //    SCENE_SOURCE_ANALYSIS = "SOURCE_ANALYSIS"; //终端分析
+    //    SCENE_STUDENT_ANALYSIS = "STUDENT_ANALYSIS";
+
+    //"STUDY_RECORD"; //学习记录
+    function study_record() {
+        var option = {
+            url: "http://localhost:8868/en/admin/study/temp/query",
+            scene: "STUDY_RECORD",
+            query: {},
+            name: "学习记录"
+        }
+        test(option)
+    }
+    //"STUDY_RECORD"; //学习记录
+    function study_record() {
+        var option = {
+            url: "http://localhost:8868/en/admin/study/temp/query",
+            scene: "STUDY_RECORD",
+            query: {
+                start: "2015-11-11",
+                end: "2016-11-11",
+                dept: "0157a6e23ba4ff80818157a49cc302e1",
+                type: ['audio', 'office'],
+                jobs: "",
+                relationship: "",
+                rank: "",
+                province: "",
+                city: "",
+                entry_date: "2011-11-11",
+                expire: "2011-11-11"
+            },
+            name: "学习记录"
+        }
+        test(option)
+    }
+
+    //"course_report"; //学习记录
+    function study_pk() {
+        var option = {
+            url: "http://localhost:8868/en/admin/study/temp/query",
+            scene: "STUDY_RECORD",
+            query: {
+                month: "09",
+                year: "2016",
+                scope: ["19cdaaa9ea5f4c27b9d28ab4f315f6a6"],
+                type: ["AUDIO", "OFFICE"]
+            },
+            name: "创课报告"
+        }
+        test(option)
+    }
+    //lecture_ana
+    function lecture_ana() {
+        var option = {
+            url: "http://localhost:8868/en/admin/study/temp/query",
+            scene: "STUDY_RECORD",
+            query: {
+                scope: "0157a6e23ba4ff80818157a49cc302e1",  /// "all_user" /"all"(包括游客)
+                start: "2015-11-11",
+                end: "2016-11-11",
+                type: ['audio', 'office'],
+            },
+            name: "创课报告"
+        }
+        test(option)
+    }
+    //"STUDENT_ANALYSIS"; //学员档案
+    function study_ana() {
+        var option = {
+            url: "http://localhost:8868/en/admin/study/temp/query",
+            scene: "STUDY_RECORD",
+            query: {
+                month: "9",
+                year: "2016",
+                scope: "19cdaaa9ea5f4c27b9d28ab4f315f6a6"
+            },
+            name: "学习记录"
+        }
+        test(option)
+    }
+
+    //模板列表
+    function temp_list() {
+        var option = {
+            url: "http://localhost:8868/en/admin/study/temp",
+            scene: "STUDY_RECORD",
+            //            query: {},
+            name: "学习记录"
+        }
+        test(option)
+    }
+
+    function test(option) {
+        $.ajax({
+            url: option.url,
+            data: {
+                query_str: JSON.stringify(option.query),
+                access_token: "0157b27a3711ff80818157b1c5bd0049",
+                sld: "yi",
+                scene: option.scene,
+                name: option.name
+            },
+            success: function (json) {
+
+            }
+        })
+    }
+
+
+    //学员分析
+    var query = {
+        month: "11",
+        year: "2016",
+        scope: {
+            name: "学员分析",
+            dept_id: "0157a6e23ba4ff80818157a49cc302e1",
+            job: "",
+            relationship: "",
+            rank: "",
+            province: "",
+            city: "",
+            entry_date: "",
+            expire: ""
+        }
+    }
+
+    //创课报告
+    var query = {
+        month: "09",
+        year: "2016",
+        scope: [{
+            name: "创课报告",
+            dept_id: "0157a6e23ba4ff80818157a49cc302e1",
+            job: "",
+            relationship: "",
+            rank: "",
+            province: "",
+            city: "",
+            entry_date: "",
+            expire: ""
+        }],
+        type: ['audio', 'office']
+    }
+
+    //终端分析
+    var query = {
+        scope: [{
+            name: "终端分析一",
+            dept_id: "0157a6e23ba4ff80818157a49cc302e1",
+            job: "",
+            relationship: "",
+            rank: "",
+            province: "",
+            city: "",
+            entry_date: "",
+            expire: ""
+        }, {
+            name: "终端分析二",
+            dept_id: "0157a6e23ba4ff80818157a49cc302e2",
+            job: "",
+            relationship: "",
+            rank: "",
+            province: "",
+            city: "",
+            entry_date: "",
+            expire: ""
+        }]
+    }
+
+    // "all_user" /"all"(包括游客)
+    //内容分析
+    var query = {
+        scope: {
+            name: "内容分析",
+            dept_id: "0157a6e23ba4ff80818157a49cc302e1",
+            job: "",
+            relationship: "",
+            rank: "",
+            province: "",
+            city: "",
+            entry_date: "",
+            expire: ""
+        },
+        start: "2016-07-11",
+        end: "2016-11-11",
+        type: ['audio', 'office'],
+    }
+    //内容记录
+    var query = {
+        start: "2016-06-11",
+        end: "2016-10-11",
+        scope: "0157a6e23ba4ff80818157a49cc302e1",
+        job: "",
+        relationship: "",
+        rank: "",
+        province: "",
+        city: "",
+        entry_date: "",
+        expire: "",
+        lecture_id: "0157adea54b6ff80818157ac932d011c"
+    }
+
+    //学习记录
+    var query = {
+        start: "2016-06-11",
+        end: "2016-10-11",
+        dept_id: "0157a6e23ba4ff80818157a49cc302e1",
+        job: "",
+        relationship: "",
+        rank: "",
+        province: "",
+        city: "",
+        entry_date: "",
+        expire: "",
+        type: ['audio', 'office'],
+    }
+    //学习PK
+    var query = {
+        start: "2015-11-11",
+        end: "2015-11-11",
+        scope: [{
+            name: "微信组织",
+            dept_id: "0157a6e23ba4ff80818157a49cc302e1",
+            job: "",
+            relationship: "",
+            rank: "",
+            province: "",
+            city: "",
+            entry_date: "",
+            expire: ""
+        }, {
+            name: "未知不恩um",
+            dept_id: "0157a2e23ba4ff80818157a49cc302e1",
+            job: "",
+            relationship: "",
+            rank: "",
+            province: "",
+            city: "",
+            entry_date: "",
+            expire: ""
+        }],
+        type: ['audio', 'office'],
+    }
+</script>
+</html>

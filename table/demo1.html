@@ -1,0 +1,225 @@
+<head>
+    <style>
+        body {
+            font-size: 12px;
+        }
+
+        .t_n {
+            width: 30px;
+            heihgt: 240px !important;
+            float: left;
+        }
+
+        .t_n span {
+            display: block;
+            text-align: center;
+            line-height: 20px;
+            border: 1px solid #000;
+            width: 28px;
+            height: 20px
+        }
+
+        .t_number {
+            border-right: 1px solid #000;
+            width: 100%;
+            margin-bottom: 5px
+        }
+
+        .t_number td {
+            width: 30px;
+            height: 25px;
+        }
+
+        .dd {
+            height: 200px !important;
+            overflow-y: hidden;
+        }
+
+        .t_i {
+            width: 400px;
+            height: auto;
+            float: left;
+        }
+
+        .t_i_h {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .t_i_h table {
+            width: 600px;
+        }
+
+        .t_i_h table td {
+            height: 20px;
+            text-align: center
+        }
+
+        .cc {
+            width: 100%;
+            height: 220px;
+            overflow: auto;
+        }
+
+        .cc table {
+            width: 600px;
+        }
+
+        .cc table td {
+            height: 25px;
+            text-align: center
+        }
+    </style>
+    <script>
+        function aa() {
+            var a = document.getElementById("cc").scrollTop;
+            var b = document.getElementById("cc").scrollLeft;
+            document.getElementById("dd").scrollTop = a;
+            document.getElementById("hh").scrollLeft = b;
+        }
+    </script>
+</head>
+
+<body>
+<div class="t_n">
+    <span>序号</span>
+    <div class="dd" id="dd">
+        <table class="t_number">
+            <tbody>
+            <tr>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>10</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--table-->
+<div class="t_i">
+    <div class="t_i_h" id="hh">
+        <div class="ee">
+            <table>
+                <tr>
+                    <td width="10%">标题A</td>
+                    <td width="20%">标题B</td>
+                    <td width="10%">标题C</td>
+                    <td width="20%">标题D</td>
+                    <td width="20%">标题E</td>
+                    <td width="20%">标题F</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="cc" id="cc" onscroll="aa()">
+        <table>
+            <tr>
+                <td width="10%">1</td>
+                <td width="20%">1</td>
+                <td width="10%">1</td>
+                <td width="20%">1</td>
+                <td width="20%">1</td>
+                <td width="20%">1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>4</td>
+                <td>4</td>
+                <td>4</td>
+                <td>4</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>7</td>
+                <td>7</td>
+                <td>7</td>
+                <td>7</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>8</td>
+                <td>8</td>
+                <td>8</td>
+                <td>8</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>9</td>
+                <td>9</td>
+                <td>9</td>
+                <td>9</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

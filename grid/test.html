@@ -1,0 +1,79 @@
+!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>无标题文档 </title>
+</head>
+
+<body>
+<table width="100%" border="1" cellspacing="0" cellpadding="0" id="tab">
+    <tr>
+        <td>张三</td>
+        <td>男</td>
+        <td>22</td>
+        <td>数学</td>
+        <td>90</td>
+    </tr>
+    <tr>
+        <td>张三</td>
+        <td>男</td>
+        <td>22</td>
+        <td>语文</td>
+        <td>70</td>
+    </tr>
+    <tr>
+        <td>张三</td>
+        <td>男</td>
+        <td>22</td>
+        <td>英语</td>
+        <td>60</td>
+    </tr>
+    <tr>
+        <td>李四</td>
+        <td>女</td>
+        <td>19</td>
+        <td>数学</td>
+        <td>60</td>
+    </tr>
+    <tr>
+        <td>李四</td>
+        <td>女</td>
+        <td>19</td>
+        <td>语文</td>
+        <td>60</td>
+    </tr>
+    <tr>
+        <td>王五</td>
+        <td>男</td>
+        <td>19</td>
+        <td>英语</td>
+        <td>60</td>
+    </tr>
+</table>
+<script>
+    var tab = document.getElementById("tab");
+    var name = "";
+    for (var i = 0, j = 0; i < tab.rows.length; i++, j++) {
+        if (name == tab.rows[i].cells[0].innerHTML) {
+            tab.rows[i].deleteCell(0)
+        } else {
+            name = tab.rows[i].cells[0].innerHTML;
+            if (i > 0) {
+                tab.rows[i - j].cells[0].rowSpan = j;
+            }
+            j = 0;
+        }
+    }
+    var name2 = "";
+    for (var i = 0, j = 0; i < tab.rows.length; i++, j++) {
+        if (name2 == tab.rows[i].cells[1].innerHTML) {
+            tab.rows[i].deleteCell(1)
+        } else {
+            name2 = tab.rows[i].cells[1].innerHTML;
+            if (i > 0)tab.rows[i - j].cells[1].rowSpan = j;
+            j = 0;
+        }
+    }
+</script>
+</body>
+</html> 

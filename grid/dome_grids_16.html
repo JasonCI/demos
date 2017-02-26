@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>grid16</title>
+    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/vue/2.0.3/vue.js"></script>
+    <style>
+        table {
+            width: 380px;
+            height: 380px;
+        }
+
+        .edit-table td {
+            width: 90px;
+            height: 90px;
+            background-color: #cacaca;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 12px;
+        }
+
+        .edit-table td.selected {
+            animation: flicker 1s infinite;
+        }
+
+        @keyframes flicker {
+            0% {
+                background-color: #cacaca;
+            }
+            60% {
+                background-color: azure;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <table class="edit-table">
+        <tr v-for="col in grids">
+            <td v-for="cell in col" @click="startOrFinishSelect(cell)" @mouseenter="selecting(cell)"
+                :style="buildCellStyle(cell)" :class="buildCellClass(cell)">
+                {{cell.id}}
+            </td>
+        </tr>
+    </table>
+
+    <table id="merge-table" class="edit-table">
+        <tr v-for="col in grids">
+            <td v-for="cell in col" :data-id="cell.id" @click="selectBlock(cell)">
+                {{cell.id}}
+                <br>
+                {{computedCoordinate(cell.id)}}
+                <br>
+                {{computedTableCoordinate(cell.id)}}
+            </td>
+        </tr>
+    </table>
+
+    <button v-if="selectedBlock" @click="spCells">拆分</button>
+</div>
+
+<script>
+    //补丁
+    if (!Array.prototype.includes) {
+        Array.prototype.includes = function (searchElement /*, fromIndex*/) {
+            'use strict';
+            if (this == null) {
+                throw new TypeError('Array.prototype.includes called on null or undefined');
+            }
+
+            var O = Object(this);
+            var len = parseInt(O.length, 10) || 0;
+            if (len === 0) {
+                return false;
+            }
+            var n = parseInt(arguments[1], 10) || 0;
+            var k;
+            if (n >= 0) {
+                k = n;
+            } else {
+                k = len + n;
+                if (k < 0) {
+                    k = 0;
+                }
+            }
+            var currentElement;
+            while (k < len) {
+                currentElement = O[k];
+                if (searchElement === currentElement ||
+                        (searchElement !== searchElement && currentElement !== currentElement)) {
+                    return true;
+                }
+                k++;
+            }
+            return false;
+        };
+    }
+    var colors = [
+        "#9e26fb",
+        "#b1dc78",
+        "#a7a7a7",
+        "#4db5f4",
+        "#5b89ca",
+        "#3854bc",
+        "#24a81c",
+        "#8425fb",
+        "#555555"
+    ]
+
+    new Vue({
+        el: "#app",
+        data: {
+            grids: [
+                [
+                    {id: 1, used: false},
+                    {id: 2, used: false},
+                    {id: 3, used: false},
+                    {id: 4, used: false},
+                ],
+                [
+                    {id: 5, used: false},
+                    {id: 6, used: false},
+                    {id: 7, used: false},
+                    {id: 8, used: false},
+                ],
+                [
+                    {id: 9, used: false},
+                    {id: 10, used: false},
+                    {id: 11, used: false},
+                    {id: 12, used: false},
+                ],
+                [
+                    {id: 13, used: false},
+                    {id: 14, used: false},
+                    {id: 15, used: false},
+                    {id: 16, used: false},
+                ]
+            ],
+            blocks: [],
+            selectedCells: [],
+            selectedBlock: null
+        },
+        methods: {
+            buildCellClass: function (cell) {
+                var clazz = {}
+                for (var i = 0; i < this.selectedCells.length; i++) {
+                    if (this.selectedCells[i] === cell) {
+                        clazz.selected = true
+                        break
+                    }
+                }
+                return clazz
+            },
+            buildCellStyle: function (cell) {
+                var style = {}
+                for (var i = 0; i < this.blocks.length; i++) {
+                    if (this.blocks[i].range.includes(cell.id)) {
+                        style.backgroundColor = this.blocks[i].color
+                    }
+                }
+                return style
+
+            },
+            startOrFinishSelect: function (cell) {
+                console.log("start or end")
+                if (cell.used) {
+                    return
+                }
+                //start
+                if (!this.selectedCells.length) {
+                    if (this.hasCellUsed(cell.id)) {
+                        return
+                    }
+                    this.selectedCells.push(cell)
+                    return
+                }
+                //end
+                var block = {}
+                block.color = colors.pop()
+                block.range = []
+                this.selectedCells.forEach(function (cell) {
+                    block.range.push(cell.id)
+                })
+                this.blocks.push(block)
+                this.mergeCells(block)
+                this.selectedCells = []
+            },
+            selecting: function (cell) {
+                if (!this.selectedCells.length) {
+                    return
+                }
+                var startCell = this.selectedCells[0]
+                if (startCell === cell) {
+                    this.selectedCells = [startCell]
+                    return
+                }
+
+                var coor1 = this.computedCoordinate(cell.id)
+                var coor2 = this.computedCoordinate(startCell.id)
+                var maxCoor = {
+                    x: coor1.x > coor2.x ? coor1.x : coor2.x,
+                    y: coor1.y > coor2.y ? coor1.y : coor2.y
+                }
+                var minCoor = {
+                    x: coor1.x < coor2.x ? coor1.x : coor2.x,
+                    y: coor1.y < coor2.y ? coor1.y : coor2.y
+                }
+                //保证第一个元素不变
+                var selectedCells = [startCell]
+                for (var id = 1; id <= 16; id++) {
+                    var c = this.getCell(id)
+                    if (c === startCell) {
+                        continue
+                    }
+                    var coor = this.computedCoordinate(id)
+                    if (coor.x >= minCoor.x && coor.y >= minCoor.y && coor.x <= maxCoor.x && coor.y <= maxCoor.y) {
+                        if (this.hasCellUsed(id)) {
+                            this.selectedCells = []
+                            return
+                        }
+                        selectedCells.push(c)
+                    }
+                }
+                this.selectedCells = selectedCells
+
+            },
+            hasCellUsed: function (id) {
+                for (var i = 0; i < this.blocks.length; i++) {
+                    if (this.blocks[i].range.includes(id)) {
+                        return true
+                    }
+                }
+                return false
+            },
+            getCell: function (id) {
+                for (var i = 0; i < this.grids.length; i++) {
+                    var col = this.grids[i]
+                    for (var j = 0; j < col.length; j++) {
+                        var cell = col[j]
+                        if (cell.id == id) {
+                            return cell
+                        }
+                    }
+                }
+                return null
+            }
+            ,
+            /**
+             * 以左上角为原点，计算某个单元格的坐标
+             */
+            computedCoordinate: function (cellId) {
+                var quotient = Math.floor(cellId / 4)
+                var remainders = cellId % 4
+                if (remainders == 0) {
+                    return {
+                        x: quotient,
+                        y: 4
+                    }
+                } else {
+                    return {
+                        x: quotient + 1,
+                        y: remainders
+                    }
+                }
+            },
+            selectBlock:function(cell){
+                var component = this;
+                var block = null;
+                component.blocks.forEach(function (block) {
+                    if (block.range.indexOf(cell.id) != -1) {
+                        component.selectedBlock = block;
+                    }
+                })
+            },
+            mergeCells:function(block){
+                var component = this;
+                console.log(block.range)
+                block.range.sort(function (a,b) {
+                    return a-b;
+                });
+
+                var minRange = block.range[0];
+                var maxRange = block.range[block.range.length - 1];
+                var minCoor = component.computedCoordinate(minRange)
+                var maxCoor = component.computedCoordinate(maxRange)
+
+                var minTabCoor = component.computedTableCoordinate(minRange)
+
+                var tab = $("#merge-table")[0];
+                tab.rows[minTabCoor.x].cells[minTabCoor.y].colSpan = maxCoor.y - minCoor.y + 1;
+                tab.rows[minTabCoor.x].cells[minTabCoor.y].rowSpan = maxCoor.x - minCoor.x + 1;
+
+                //留下合并的单元格
+                var arr = block.range.slice();
+                arr.shift();
+                arr.forEach(function (id) {
+                    //使用table座标进行删除操作
+                    var coor = component.computedTableCoordinate(id)
+                    tab.rows[coor.x].deleteCell(coor.y);
+                });
+            },
+            spCells:function(){
+                var component = this;
+                var block = component.selectedBlock;
+
+                block.range.sort(component.sortByNum)
+
+                var minRange = block.range[0];
+
+                var minTabCoor = component.computedTableCoordinate(minRange);
+
+                var tab = $("#merge-table")[0];
+                tab.rows[minTabCoor.x].cells[minTabCoor.y].colSpan = 1;
+                tab.rows[minTabCoor.x].cells[minTabCoor.y].rowSpan = 1;
+
+                var arr = block.range.slice();
+                arr.shift();
+
+                arr.forEach(function (id) {
+                    var coor = component.computedCoordinate(id)
+                    tab.rows[coor.x - 1].insertCell(coor.y - 1);
+                    tab.rows[coor.x - 1].cells[coor.y - 1].innerHTML = id;
+                })
+            },
+            //合并后操作,cell座标和table row col值会有错位,需计算座标值
+            computedTableCoordinate:function(id){
+                var tab = $("#merge-table")[0];
+
+                for (var i = 0; i < tab.rows.length; i++) {
+                    for (var j = 0; j < tab.rows[i].cells.length; j++) {
+                        if (tab.rows[i].cells[j] && $(tab.rows[i].cells[j]).data("id") == id) {
+                            return {x: i, y: j};
+                        }
+                    }
+                }
+                return null
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <title>help 1.0</title>
+  <style>
+    .circle {
+      width: 45px;
+      height: 45px;
+      top: 10px;
+      background: #5cb85c;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      border-radius: 50px;
+      margin-left: 9px;
+      text-align: center;
+      color: white;
+      line-height: 45px;
+    }
+
+    .step:after {
+      content: "";
+      opacity: 0.5;
+      z-index: -1;
+      margin-top: -25px;
+      margin-left: 35px;
+      display: block;
+      background: #5cb85c;
+      width: 120px;
+      height: 2px;
+    }
+
+    .mask {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+
+    .content {
+      width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px
+    }
+
+    .bubble {
+      position: relative;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      background: #f5f5f5
+    }
+
+    .bubble::before {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: -9px;
+      transform: rotate(45deg);
+      border: 9px solid;
+      border-color: #ddd transparent transparent #ddd;
+    }
+
+    .bubble::after {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: -8px;
+      transform: rotate(45deg);
+      border: 8px solid;
+      border-color: #f5f5f5 transparent transparent #f5f5f5;
+    }
+
+    .bubble.bubble-1::before {
+      left: 97px;
+    }
+
+    .bubble.bubble-1::after {
+      left: 98px;
+    }
+
+    .bubble.bubble-2::before {
+      left: 252px;
+    }
+
+    .bubble.bubble-2::after {
+      left: 253px;
+    }
+
+    .bubble.bubble-3::before {
+      left: 411px;
+    }
+
+    .bubble.bubble-3::after {
+      left: 412px;
+    }
+
+    .bubble.bubble-4::before {
+      left: 560px;
+    }
+
+    .bubble.bubble-4::after {
+      left: 561px;
+    }
+
+    .bubble.bubble-5::before {
+      left: 719px;
+    }
+
+    .bubble.bubble-5::after {
+      left: 720px;
+    }
+  </style>
+</head>
+
+<body>
+  <link href="http://static.kuaike.cn/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="http://static.kuaike.cn/juery/2.1.3/jquery.min.js"></script>
+  <link href="http://static.kuaike.cn/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <script src="http://static.kuaike.cn/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <div class="panel panel-default content">
+    <div class="panel-heading">
+      <h4 class="panel-title text-left">
+        <img src="title-icon.jpg">&nbsp;丨&nbsp;帮助中心
+      </h4>
+    </div>
+  </div>
+  <div class="content">
+    <h2>入门篇</h2>
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-1 title title-1" onclick="swich(1)">
+        <p>
+          绑定微信
+        </p>
+        <div class="circle step">
+          1
+        </div>
+      </div>
+      <div class="col-xs-2 mask title title-2" onclick="swich(2)" style="course:pointer">
+        <p>
+          建立课程
+        </p>
+        <div class="circle  step">2</div>
+      </div>
+      <div class="col-xs-2 mask title title-3" onclick="swich(3)">
+        <p>
+          建立考试
+        </p>
+        <div class="circle  step">3</div>
+      </div>
+      <div class="col-xs-2 mask title title-4" onclick="swich(4)">
+        <p>
+          添加用户
+        </p>
+        <div class="circle  step ">4</div>
+      </div>
+      <div class="col-xs-2 mask title title-5" onclick="swich(5)">
+        <p>
+          设定微信菜单
+        </p>
+        <div class="circle ">5</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="content bubble bubble-1">
+    <div class="panel-body">
+      <i class=" fa fa-info-circle"></i> 猜您操作中可能遇到的问题
+      <hr>
+      <div class="row">
+        <div class="col-xs-4">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239ac89e68a2b727b51fc6d8231ad">绑定服务号</a>
+        </div>
+        <div class="col-xs-4">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a9ab7f8a2b727b51fc6d8231a5">绑定企业号</a>
+        </div>
+        <div class="col-xs-4">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239ab325c8a2b727b51fc6d8231a9">同步企业通讯录</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content bubble bubble-2" style="border-radius:5px;border:1px solid #ddd;background:#f5f5f5;display:none">
+    <div class="panel-body">
+      <i class=" fa fa-info-circle"></i> 猜您操作中可能遇到的问题
+      <hr>
+      <div class="row">
+        <div class="col-xs-2">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399187808a2b727b51fc6d823155">设定分类</a>
+        </div>
+        <div class="col-xs-2">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/01523992ec0b8a2b727b51fc6d823159">新建主题</a>
+        </div>
+        <div class="col-xs-2">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399443b98a2b727b51fc6d82315d">添加视频微课</a>
+        </div>
+        <div class="col-xs-2">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399a939f8a2b727b51fc6d823164">制作全画幅微课</a>
+        </div>
+        <div class="col-xs-2">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399b43818a2b727b51fc6d823167">制作混图文微课</a>
+        </div>
+        <div class="col-xs-2">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a0a4a48a2b727b51fc6d823182">创建直播</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="content  bubble bubble-3" style="display:none;border-radius:5px;border:1px solid #ddd;background:#f5f5f5">
+    <div class="panel-body">
+      <i class=" fa fa-info-circle"></i> 猜您操作中可能遇到的问题
+      <hr>
+      <div class="row">
+        <div class="col-xs-4">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399d45408a2b727b51fc6d82316e">创建题库</a>
+        </div>
+        <div class="col-xs-4">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399e009a8a2b727b51fc6d823171">创建固定试卷</a>
+        </div>
+        <div class="col-xs-4">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399e80928a2b727b51fc6d823176">创建随机试卷</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content bubble bubble-4" style="display:none; border-radius:5px;border:1px solid #ddd;background:#f5f5f5">
+    <div class="panel-body">
+      <i class=" fa fa-info-circle"></i> 猜您操作中可能遇到的问题
+      <hr>
+      <div class="row">
+        <div class="col-xs-6">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239aea0088a2b727b51fc6d8231b1">新建用户</a>
+        </div>
+        <div class="col-xs-6">
+          <a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239afba4b8a2b727b51fc6d8231b7">添加小组和部门</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content bubble bubble-5" style="display:none; border-radius:5px;border:1px solid #ddd;background:#f5f5f5">
+    <div class="panel-body">
+      <i class=" fa fa-info-circle"></i> 猜您操作中可能遇到的问题
+      <hr>
+      <div>
+        <a target="_blank" href="http://wei.kuaike.cn/lecture/show/01537d4aca048a2b727b5373b238102f">设定自定义菜单</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>进阶篇</h2>
+    <div class="row">
+      <div class="col-xs-3">
+        <div class="panel panel-default" style="height: 200px">
+
+
+          <div class="panel-heading">
+            <img src="icon-1.jpg" style='width:27px;height:27px' alt="" /> 更多学习内容
+          </div>
+          <div class="panel-body">
+            <ul>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399bec1a8a2b727b51fc6d82316a">创建微评估</a></li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/0152399f7c318a2b727b51fc6d823179">制作超链接微课</a>
+              </li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a01f348a2b727b51fc6d82317c">创建微讨论</a></li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a1f5ca8a2b727b51fc6d823188">内容的移动和复制</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="panel panel-default" style="height: 200px">
+
+
+          <div class="panel-heading">
+            <img src="icon-2.jpg" style='width:27px;height:27px' alt="" /> 更强大的主题
+          </div>
+          <div class="panel-body">
+            <ul>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a2771f8a2b727b51fc6d82318b">为主题添加封面</a>
+              </li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a3c8fa8a2b727b51fc6d823191">设定主题访问范围</a>
+              </li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a503b28a2b727b51fc6d823195">设定主题的协同操作</a>
+              </li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a667978a2b727b51fc6d823199">设置主题常用操作</a>
+              </li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239a81dca8a2b727b51fc6d82319e">为主题添加打赏</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="panel panel-default" style="height: 200px">
+
+
+          <div class="panel-heading">
+            <img src="icon-3.jpg" style='width:27px;height:27px' alt="" /> 活用平台
+          </div>
+          <div class="panel-body">
+            <ul>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239b0617c8a2b727b51fc6d8231bd">指定组别/部门考试</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="panel panel-default" style="height: 200px">
+
+
+          <div class="panel-heading">
+            <img src="icon-4.jpg" style='width:27px;height:27px' alt="" /> 平台个性化
+          </div>
+          <div class="panel-body">
+            <ul>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239b0fa428a2b727b51fc6d8231c1">如何更换LOGO</a>
+              </li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239b2192b8a2b727b51fc6d8231c5">如何设置轮播界面</a>
+              </li>
+              <li><a target="_blank" href="http://wei.kuaike.cn/lecture/show/015239b33ae88a2b727b51fc6d8231c9">修改用户登录密码</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="content" style="border-radius:5px;border:1px solid #ddd">
+    <div class="panel-body">
+      如需更多帮助,请咨询我们的客服人员
+      <hr>
+      <div class="row">
+        <div class="col-xs-5">
+          电话:18016036209
+        </div>
+        <div class="col-xs-5">
+          微信:18616784851
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  function swich(index) {
+    $(".bubble").hide();
+    $(".bubble-" + index).show();
+
+    $(".title").addClass("mask");
+    $(".title-" + index).removeClass("mask");
+  }
+</script>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+
+    .HolyGrail {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    header,
+    footer {
+        flex: 1;
+        height: 10px;
+    }
+
+    .HolyGrail-body {
+        display: flex;
+        flex: 1;
+        height: 100%;
+    }
+
+    .HolyGrail-content {
+        flex: 1;
+        background-color: beige;
+    }
+
+    .HolyGrail-nav, .HolyGrail-ads {
+        /* 两个边栏的宽度设为12em */
+        flex: 0 0 12em;
+        background-color: lightblue;
+    }
+
+    .HolyGrail-nav {
+        /* 导航放到最左边 */
+        order: -1;
+    }
+
+    .InputAddOn {
+        display: flex;
+    }
+
+    .InputAddOn-field {
+        flex: 1;
+    }
+
+    .search-panel {
+        margin: auto;
+        display: flex;
+        width: 100%;
+        border-collapse: collapse
+    }
+
+    .search-panel .left {
+        border-bottom-left-radius: 3px;
+        border-top-left-radius: 3px;
+        border: 1px solid #ccc;
+        color: #999999;
+        flex-grow: 2;
+    }
+
+    .search-panel .right {
+        width: 30px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-bottom-right-radius: 3px;
+        border-top-right-radius: 3px;
+        border-left: none;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>圣杯布局</title>
+</head>
+<body class="HolyGrail">
+<header>标题</header>
+<div class="HolyGrail-body">
+    <main class="HolyGrail-content">主体
+        <table class="search-panel">
+            <tr>
+                <td class="left"> {{searchData.placeholder ||'输入关键字搜索'}}</td>
+                <td class="right" width="20px"><i class="fa fa-search"></i></td>
+            </tr>
+        </table>
+
+        <br>
+
+        <div class="search-panel">
+            <div class="left">输入关键字搜索</div>
+            <div class="right"><i class="fa fa-search">search</i></div>
+        </div>
+    </main>
+    <nav class="HolyGrail-nav">导航</nav>
+    <aside class="HolyGrail-ads">侧边</aside>
+</div>
+<footer>底部</footer>
+</body>
+</html>
+<script>
+    function add() {
+        // var args = Array.slice(arguments);
+        // var args = Array.prototype.slice.call(arguments);
+        var args = new Array(arguments.length);
+
+        for (var i = 0; i < args.length; ++i) {
+            args[i] = arguments[i];
+        }
+
+        if (args.length == 1) {
+            if (isNaN(args[0])) {
+                return undefined;
+            }
+
+            return function (b) {
+
+                if (isNaN(b)) {
+                    return undefined;
+                }
+                return args[0] + b;
+            }
+        }
+
+        if (isNaN(args[0]) || isNaN(args[1])) {
+            return undefined;
+        }
+        return args[0] + args[1];
+    }
+</script>

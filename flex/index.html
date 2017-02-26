@@ -1,0 +1,75 @@
+<style>
+    .container {
+        display: flex;
+        background-color: whitesmoke;
+        /*flex-wrap: wrap;*/
+    }
+
+    .item {
+        width: 50px;
+        height: 50px;
+        background-color: greenyellow;
+        margin: 10px;
+    }
+
+    .item-wider {
+        width: 110px;
+        height: 50px;
+        background-color: greenyellow;
+        margin: 10px;
+    }
+
+    .item-heigher {
+        width: 50px;
+        height: 110px;
+        background-color: greenyellow;
+        margin: 10px;
+    }
+
+    .item-5 {
+        background-color: green;
+        margin: 10px;
+    }
+
+    .container-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<div class="container" style="width: 700px;height: 500px;margin: auto;margin-top:30px">
+    <div class="item container-inner">
+        <span style="font-size: 11px">1</span>
+    </div>
+    <div class="item-heigher container-inner">
+        <span>2</span>
+    </div>
+    <div class="item container-inner">
+        <span style="font-size: 40px">3</span>
+    </div>
+    <div class="item container-inner">
+        <span>4</span>
+    </div>
+    <div class="item-5 container-inner">
+        <span>5</span>
+    </div>
+    <!--<div class="item-wider container-inner">-->
+        <!--<span style="font-size: 23px">6</span>-->
+    <!--</div>-->
+    <!--<div class="item-wider container-inner">-->
+        <!--<span style="font-size: 23px">6</span>-->
+    <!--</div>-->
+    <div class="item-heigher container-inner">
+        <span>7</span>
+    </div>
+    <div class="item-heigher container-inner">
+        <span>8</span>
+    </div>
+    <div class="item container-inner">
+        <span>9</span>
+    </div>
+    <div class="item-heigher container-inner">
+        <span>10</span>
+    </div>
+</div>

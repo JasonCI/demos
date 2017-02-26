@@ -1,0 +1,65 @@
+<head>
+    <meta charset="UTF-8">
+    <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/vue/2.0.0-rc.5/vue.js"></script>
+    <title>data format</title>
+</head>
+<body>
+<div id="app" style="width:80%;margin: auto;margin-top: 20px;">
+    <div class="row">
+        <div class="col-xs-4">
+            <textarea class="form-control" rows="35" v-model="numbers" cols="5" placeholder="输入序列,一字一行"
+            ></textarea>
+        </div>
+        <div class="col-xs-1">
+            <p style="margin-top: 5px;">
+                <button class="btn btn-success btn-sm pull-right" @click="format">转换</button>
+            </p>
+        </div>
+        <div class="col-xs-4">
+            <p>选中第一行,鼠标拉到最下面,shift选中最后一行</p>
+            <p style="padding: 0;margin: 0" v-for="num in list">{{num}}</p>
+        </div>
+        <div class="col-xs-2">
+            <p>获得焦点,ctrl+a</p>
+            <textarea class="form-control" rows="35" cols="5">{{string}}</textarea>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            numbers: null,
+            list: [],
+            string: null
+        },
+        methods: {
+            format: function () {
+                var component = this;
+                var arr = component.numbers.split("\n");
+                component.list = [];
+                arr.forEach(function (num) {
+                    //有值才处理
+                    if (num) {
+                        //特定字符作为判断
+                        if (num.indexOf("M") != -1) {
+                            //去掉M
+                            num = num.substr(0, num.length - 1)
+                            if (parseFloat(num)) {
+                                //乘1024 保留两位小数 去除00 加上 K
+                                num = (parseFloat(num) * 1024).toFixed(2).replace(".00", "") + "K";
+                            }
+                        }
+                    }
+                    if (num) {
+                        //推入列表
+                        component.list.push(num);
+                    }
+                })
+                component.string = component.list.join("\n");
+            }
+        }
+    })
+</script>

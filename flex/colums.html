@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .content {
+        width: 60%;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #EB5047;
+        background-color: whitesmoke;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .item {
+        margin: 3px;
+        border: 1px solid #E6873C;
+        flex: 0 0 45%;
+        align-items: center;
+        height: 100px;
+        background-color: #cacaca;
+    }
+
+    .container-body {
+        display: flex;
+        flex-wrap: nowrap;
+
+    }
+
+    .container-left {
+        border: 1px solid skyblue;
+        width: 33%;
+        height: 100px;
+        margin: 6px;
+    }
+
+    .container-right {
+        border: 1px solid skyblue;
+        margin: 6px;
+        width: 100%;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+</style>
+<body>
+<div class="content">
+    <div class="container">
+        <div class="item">
+            <div style="border-color: #cacaca;width: 40%;height: 100px"></div>
+        </div>
+        <div class="item">
+            <div style="border-color: #cacaca;width: 40%;height: 100px"></div>
+        </div>
+        <div class="item">
+            <div style="border-color: #cacaca;width: 40%;height: 100px"></div>
+        </div>
+        <div class="item">
+            <div style="border-color: #cacaca;width: 40%;height: 100px"></div>
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="content">
+    <div class="container-body">
+        <div class="container-left"></div>
+        <div class="container-right">
+            <p>思考卡数据</p>
+            <p>埃斯库多</p>
+        </div>
+    </div>
+</div>
+<br>
+<div class="content">
+    <div style="display: flex;flex-wrap: nowrap;justify-content: space-around">
+        <span style="width: 6%;padding: 0">取消</span>
+        <input style="flex-grow: 1" placeholder="搜索主题名称,主题简介">
+        <span style="width: 6%;padding: 0">搜索</span>
+    </div>
+</div>
+</body>
+</html>

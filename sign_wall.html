@@ -1,0 +1,348 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
+    <title>sign wall</title>
+</head>
+<body>
+<style>
+
+    .user-list {
+        padding: 0;
+        list-style: none;
+        text-align: center;
+    }
+
+    .user-info {
+        display: inline-block;
+    }
+
+    .pager {
+        color: white;
+    }
+
+    .pager span {
+        margin: 0 5px;
+    }
+
+    body {
+        background: #000;
+        overflow: hidden;
+    }
+
+    canvas {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    #c1 {
+        opacity: 0;
+        z-index: -1;
+    }
+
+    #c2 {
+        background: #000;
+        z-index: -1;
+    }
+
+
+</style>
+<canvas id="c1"></canvas>
+<canvas id="c2"></canvas>
+
+<div id="wall" :style="containerStyle" style="margin: 0 auto;">
+    <ul v-for="n in totalPage" v-if="(n+1)==pn" class="user-list" style="height: 80%">
+        <li v-for="user in userList.slice(n*50,(n+1)*50)" class="user-info" :style="avatarStyle">
+            <img :src="user.avatar_url" class="user-info"
+                 style="width:100%;height:100%;padding:1px">
+        </li>
+    </ul>
+    <div v-if="totalPage>1" class="text-center pager">
+        <span v-for="n in totalPage" class="fa" :class="{'fa-circle':pn==n+1,'fa-circle-o':pn!=n+1}"
+              @click="pn=n+1"></span>
+    </div>
+    <button class="btn btn-default" @click="push">push user</button>
+</div>
+<script>
+    $(function () {
+        window.vm = new Vue({
+            el: "#wall",
+            data: {
+                userList: [{}],
+                scrolling: false,
+                window: {
+                    width: 0,
+                    height: 0
+                },
+                container: {
+                    marginTop: 0,
+                    height: 0,
+                    width: 0
+                },
+                avatar: {
+                    height: 0,
+                    width: 0
+                },
+                pn: 1,
+                timer: null//轮播定时器
+            },
+            ready: function () {
+                this.load();
+                this.startCarousel();
+            },
+            computed: {
+                containerStyle: function () {
+                    var container = this.container
+                    return {
+                        'margin-top': container.marginTop + 'px',
+                        'height': container.height + 'px',
+                        'width': container.width + 'px'
+                    }
+                },
+                avatarStyle: function () {
+                    var avatar = this.avatar
+                    return {
+                        'height': avatar.height + 'px',
+                        'width': avatar.width + 'px'
+                    }
+                },
+                totalPage: function () {
+                    var component = this
+                    return Math.ceil(component.userList.length / 50)
+                }
+            },
+            methods: {
+                push:function(){
+                    this.insert({
+                        nickname: 'JAOSN',
+                        avatar_url: 'http://img.123xue.cn/01553e06dc09ff808181553e06dc0000.jpg@!avatar'
+                    })
+                },
+                load: function () {
+                    var component = this;
+//                    $.getJSON("/expo/activity/wall/list/${activity.id}",
+//                            function (json) {
+//                                if (json.ok) {
+//                                    component.userList = json.userList;
+//                                    var wsUrl = "ws://api.${domain}" + "/expo/activity/sign_up.ws" +
+//                                            "?activity_id=${activity.id}&schema=${enterprise.schema}";
+//                                    component.openSocket(wsUrl);
+//                                }
+//                            });
+                },
+                insert: function (user) {
+                    var component = this;
+                    component.userList.push(user);
+                    component.pn = component.totalPage;
+                    if (!component.timer) {
+                        clearInterval(component.timer);
+                    }
+                    setTimeout(function () {
+                        component.startCarousel();
+                    }, 2000)
+                },
+                //启动轮播定时器
+                startCarousel: function () {
+                    var component = this;
+                    if (!component.timer) {
+                        component.timer = setInterval(function () {
+                            if (component.pn == component.totalPage) {
+                                component.pn = 1;
+                                return;
+                            }
+                            component.pn++
+                        }, 5000);
+                    }
+                },
+                //初始化websocket
+                openSocket: function (wsUrl) {
+                    var component = this;
+                    var socket = new WebSocket(wsUrl);
+                    var failCount;
+                    socket.onopen = function (event) {
+                        failCount = 0;
+                    };
+                    socket.onmessage = function (event) {
+                        var user = {};
+                        var json = JSON.parse(event.data);
+                        user.nickname = json.nickname;
+                        user.avatar_url = json.avatar_url;
+                        component.insert(user);
+                    };
+                    socket.onerror = function (event) {
+                        socket.close(3111, "连接发生异常");
+                    };
+                    socket.onclose = function (event) {
+                        if (event.reason) {
+                            showAlert("连接失败:" + event.reason);
+                            return;
+                        }
+                        if (++failCount > 3) {
+                            showAlert("连接被断开,可能是您的网络问题,请刷新重试");
+                            return;
+                        }
+                        component.load();
+                    };
+                }
+            },
+            created: function () {
+                var component = this
+                //屏幕尺寸
+                $(window).on("resize", windowResize)
+                windowResize()
+                function windowResize() {
+                    component.window.width = $(window).width()
+                    component.window.height = $(window).height()
+                    component.container.marginTop = (component.window.height * 0.30).toFixed(0)
+                    component.container.height = (component.window.height * 0.60).toFixed(0)
+                    component.avatar.width = component.avatar.height = (component.container.height * 0.8 * 0.2).toFixed(0)
+                    component.container.width = component.avatar.width * 10
+                }
+            },
+            beforeDestroy: function () {
+                var component = this;
+                clearInterval(component.timer);
+            }
+        })
+    })
+
+    var c1 = document.getElementById('c1'),
+            ctx1 = c1.getContext('2d'),
+            c2 = document.getElementById('c2'),
+            ctx2 = c2.getContext('2d'),
+            twopi = Math.PI * 2,
+            parts = [],
+            sizeBase,
+            cw,
+            opt,
+            hue,
+            count;
+
+    function rand(min, max) {
+        return Math.random() * ( max - min ) + min;
+    }
+
+    function hsla(h, s, l, a) {
+        return 'hsla(' + h + ',' + s + '%,' + l + '%,' + a + ')';
+    }
+
+    function create() {
+        sizeBase = cw + ch;
+        count = Math.floor(sizeBase * 0.3),
+                hue = rand(0, 360),
+                opt = {
+                    radiusMin: 1,
+                    radiusMax: sizeBase * 0.04,
+                    blurMin: 10,
+                    blurMax: sizeBase * 0.04,
+                    hueMin: hue,
+                    hueMax: hue + 100,
+                    saturationMin: 10,
+                    saturationMax: 70,
+                    lightnessMin: 20,
+                    lightnessMax: 50,
+                    alphaMin: 0.1,
+                    alphaMax: 0.5
+                }
+        ctx1.clearRect(0, 0, cw, ch);
+        ctx1.globalCompositeOperation = 'lighter';
+        while (count--) {
+            var radius = rand(opt.radiusMin, opt.radiusMax),
+                    blur = rand(opt.blurMin, opt.blurMax),
+                    x = rand(0, cw),
+                    y = rand(0, ch),
+                    hue = rand(opt.hueMin, opt.hueMax),
+                    saturation = rand(opt.saturationMin, opt.saturationMax),
+                    lightness = rand(opt.lightnessMin, opt.lightnessMax),
+                    alpha = rand(opt.alphaMin, opt.alphaMax);
+
+            ctx1.shadowColor = hsla(hue, saturation, lightness, alpha);
+            ctx1.shadowBlur = blur;
+            ctx1.beginPath();
+            ctx1.arc(x, y, radius, 0, twopi);
+            ctx1.closePath();
+            ctx1.fill();
+        }
+
+        parts.length = 0;
+        for (var i = 0; i < Math.floor(( cw + ch ) * 0.03); i++) {
+            parts.push({
+                radius: rand(1, sizeBase * 0.03),
+                x: rand(0, cw),
+                y: rand(0, ch),
+                angle: rand(0, twopi),
+                vel: rand(0.1, 0.5),
+                tick: rand(0, 10000)
+            });
+        }
+    }
+
+    function init() {
+        resize();
+        create();
+        loop();
+    }
+
+    function loop() {
+        requestAnimationFrame(loop);
+
+        ctx2.clearRect(0, 0, cw, ch);
+        ctx2.globalCompositeOperation = 'source-over';
+        ctx2.shadowBlur = 0;
+        ctx2.drawImage(c1, 0, 0);
+        ctx2.globalCompositeOperation = 'lighter';
+
+        var i = parts.length;
+        ctx2.shadowBlur = 15;
+        ctx2.shadowColor = '#fff';
+        while (i--) {
+            var part = parts[i];
+
+            part.x += Math.cos(part.angle) * part.vel;
+            part.y += Math.sin(part.angle) * part.vel;
+            part.angle += rand(-0.05, 0.05);
+
+            ctx2.beginPath();
+            ctx2.arc(part.x, part.y, part.radius, 0, twopi);
+            ctx2.fillStyle = hsla(0, 0, 100, 0.075 + Math.cos(part.tick * 0.02) * 0.05);
+            ctx2.fill();
+
+            if (part.x - part.radius > cw) {
+                part.x = -part.radius
+            }
+            if (part.x + part.radius < 0) {
+                part.x = cw + part.radius
+            }
+            if (part.y - part.radius > ch) {
+                part.y = -part.radius
+            }
+            if (part.y + part.radius < 0) {
+                part.y = ch + part.radius
+            }
+
+            part.tick++;
+        }
+    }
+
+    function resize() {
+        cw = c1.width = c2.width = window.innerWidth,
+                ch = c1.height = c2.height = window.innerHeight;
+        create();
+    }
+
+    function click() {
+        create()
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('click', click);
+
+    init();
+</script>
+</body>
+</html>
