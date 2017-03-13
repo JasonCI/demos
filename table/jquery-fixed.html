@@ -31,7 +31,7 @@
     </style>
 </head>
 <body>
-<article id="app" v-fixed-header="36">
+<article id="app" v-fixed-header>
     <table>
         <thead>
         <tr>
@@ -44,12 +44,14 @@
         </tr>
         </tbody>
     </table>
+    <br>
+    <button @click="add"> add</button>
+    <button @click="remove"> remove</button>
 </article>
 </body>
 <script>
     Vue.directive('fixed-header', {
-        bind: function (el, value) {
-            console.log(value)
+        bind: function (el) {
             Vue.nextTick(function () {
                 $(el).css('position', 'relative')
                 var table = $(el).find('table')
@@ -59,16 +61,13 @@
                 cloneTable.css({position: 'absolute', width: table.width() + 'px', visibility: 'hidden'})
                 var colGroup = $('<colgroup></colgroup>')
 
-                $(header).find('td').each(function (i) {
+                $(header).find('tr>*').each(function (i) {
                     colGroup.append($('<col width="' + $(this).innerWidth() + '"/>'))
                 })
                 cloneTable.find('thead').before(colGroup)
                 $(el).bind('scroll', function (e) {
                     cloneTable.css('top', e.target.scrollTop + 'px')
-
-//                    $(window).scrollTop() >= $element.offset().top + $element.height()
                     if (header[0].getBoundingClientRect().top > 0) {
-//                    if (e.target.scrollTop - header.height > header.offset().top) {
                         cloneTable.css('visibility', 'hidden')
                         header.css('visibility', 'visible')
                     } else {

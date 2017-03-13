@@ -44,34 +44,10 @@
 </style>
 <body>
 <div id="app">
-    <div style="display: flex">
+    <div>
         <div>
             <table>
-                <colgroup ref="fixHead">
-                    <col>
-                </colgroup>
-                <thead>
-                <tr>
-                    <td>{{head[0].label}}</td>
-                </tr>
-                </thead>
-            </table>
-            <div id="fixheader" style="height: 300px;overflow: hidden;position: fixed">
-                <table>
-                    <colgroup ref="fixRowHead">
-                        <col>
-                    </colgroup>
-                    <tbody>
-                    <tr v-for="user in list">
-                        <td>{{user[head[0].value]}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div>
-            <table>
-                <colgroup ref="fixColHead">
+                <colgroup>
                     <col v-for="h in head">
                 </colgroup>
                 <thead>
@@ -80,9 +56,9 @@
                 </tr>
                 </thead>
             </table>
-            <div class="data-content" @scroll="scroll">
+            <div>
                 <table>
-                    <tbody ref="tbody">
+                    <tbody>
                     <tr v-for="user in list">
                         <td v-for="info in head">{{user[info.value]}}</td>
                     </tr>
