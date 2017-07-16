@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>gear rotate</title>
+</head>
+<style>
+    @keyframes gear-rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(180deg);
+        }
+    }
+
+    .gear-rotate {
+        width: 2em;
+        height: 2em;
+        background: #2C2C2C;
+        position: relative;
+        border-radius: 1em;
+        animation: 1s gear-rotate steps(10) infinite;
+    }
+
+    .gear-rotate::before {
+        width: 2.8em;
+        height: 2.8em;
+        background: linear-gradient(0deg, transparent 39%, #2C2C2C 39%, #2C2C2C 61%, transparent 61%),
+        linear-gradient(60deg, transparent 42%, #2C2C2C 42%, #2C2C2C 58%, transparent 58%),
+        linear-gradient(120deg, transparent 42%, #2C2C2C 42%, #2C2C2C 58%, transparent 58%);
+        position: absolute;
+        content: "";
+        top: -.4em;
+        left: -.4em;
+        border-radius: 1.4em;
+    }
+
+    .gear-rotate::after {
+        width: 1em;
+        height: 1em;
+        background: #EEEEEE;
+        position: absolute;
+        content: "";
+        top: .5em;
+        left: .5em;
+        border-radius: .5em;
+    }
+
+    .googleplus {
+        position: relative;
+        font-size: 20px;
+        height: 2em;
+        width: 2em;
+        background: #2C2C2C;
+        display: block;
+        border-radius: 0.3em;
+        overflow: hidden;
+    }
+
+    .googleplus::before {
+        left: -0.1em;
+        font-size: 2.9em;
+        top: -0.36em;
+        position: absolute;
+        display: block;
+        content: "g";
+        color: #EDEEE8;
+        font-family: georgia;
+    }
+
+    .googleplus::after {
+        left: 0.9em;
+        top: -0.3em;
+        position: absolute;
+        display: block;
+        content: "+";
+        font-size: 1.25em;
+        font-weight: bold;
+        color: #EDEEE8;
+        font-family: georgia;
+    }
+
+    #demo {
+        width: 1000px;
+        height: 600px;
+        border: 1px solid black;
+    }
+
+    #demo p {
+        margin: 10% 5%;
+    }
+
+    .border {
+        width: 100px;
+        height: 100px;
+        background-color: #5cb85c;
+        border-radius: 50% / 50%;
+    }
+</style>
+<body>
+<div style="margin:50px auto;width: 75%">
+    <div class="gear-rotate"></div>
+    <div class="googleplus"></div>
+
+    <div class="border"></div>
+
+    <div id="demo">
+        <p>恩，注意看我所在的位置。</p>
+    </div>
+</div>
+</body>
+</html>
+
